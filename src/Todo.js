@@ -10,6 +10,13 @@ export default function Todo({ title, content, author, dateCreated, complete, da
     });
   };
 
+  const handleDelete = () => {
+    dispatchTodo({ 
+      type: "DELETE_TODO",
+      id
+    });
+  };
+
   return (
     <div>
       <h3>{title}</h3>
@@ -32,6 +39,7 @@ export default function Todo({ title, content, author, dateCreated, complete, da
         />
         <label>Complete</label>
       </div>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 }

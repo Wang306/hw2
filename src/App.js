@@ -1,7 +1,5 @@
 import UserBar from "./UserBar";
-import CreateTodo from "./CreateTodo";
 import { useReducer } from 'react';
-import TodoList from "./TodoList";
 import appReducer from "./reducers";
 
 function App() {
@@ -27,11 +25,11 @@ function App() {
 
   return (
     <div>
-      <UserBar user={user} dispatchUser = {dispatch} />
-      <CreateTodo user={user} handleAddTodo={handleAddTodo} />
-      <TodoList todos={todos} dispatchTodo = {dispatch} />
+      <UserBar user={user} dispatchUser = {dispatch} handleAddTodo={handleAddTodo} todos={todos} dispatchTodo = {dispatch}/>
     </div>
   );
+  // <CreateTodo user={user} handleAddTodo={handleAddTodo} />
+  // <TodoList todos={todos} dispatchTodo = {dispatch} />
 }
 
 export default App;

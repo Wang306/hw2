@@ -4,6 +4,7 @@ export default function Logout({ user, dispatchUser }) {
       onSubmit={(e) => {
         e.preventDefault();
         dispatchUser({ type: "LOGOUT" });
+        dispatchUser({ type: "CLEAR_TODO" });
       }}
     >
       Logged in as: <b>{user}</b>

@@ -34,6 +34,10 @@ function todoReducer(state, action) {
                 }
                 return todo;
             });
+        case "CLEAR_TODO":
+            return [];
+        case "DELETE_TODO":
+            return state.filter(todo => todo.id !== action.id);
         default:
             return state;
     }
