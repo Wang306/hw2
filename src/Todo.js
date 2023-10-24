@@ -1,22 +1,14 @@
-import { useState } from "react";
+//import { useState } from "react";
 
-export default function Todo({ title, content, author, dateCreated, complete, todos = [], index }) {
-  const [ check, setCheck ] = useState(complete);
-  function handleComplete(){
-    //console.log("handleComplete called");
-    //console.log(posts[index]);
-    if (check) {
-      setCheck(false);
-      todos[index].complete = false;
-      todos[index].dateCompleted = "";
-    } else {
-      setCheck(true);
-      todos[index].complete = true;
-      todos[index].dateCompleted = Date(Date.now());
-    }
-    //console.log(posts[index]);
-  }
+export default function Todo({ title, content, author, dateCreated, complete, dateCompleted, id, dispatchTodo }) {
   
+  const handleComplete = () => {
+    console.log("enter toggle");
+    dispatchTodo({
+      type: "TOGGLE_TODO", 
+      id
+    });
+  };
 
   return (
     <div>
@@ -27,15 +19,15 @@ export default function Todo({ title, content, author, dateCreated, complete, to
       <br />
       <i>Date Created: <b>{dateCreated}</b></i>
       <br />
-      {check ? (
-        <i>Date Complete: <b>{todos[index].dateCompleted}</b></i>
+      {complete ? (
+        <i>Date Complete: <b>{dateCompleted}</b></i>
       ) : (
         <i>Date Complete: </i>
       )}
       <div>
         <input
           type="checkbox"
-          checked={check} 
+          checked={complete} 
           onChange={handleComplete}
         />
         <label>Complete</label>

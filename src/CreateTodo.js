@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CreateTodo({ user, handleAddTodo }) {
 
@@ -8,7 +9,7 @@ export default function CreateTodo({ user, handleAddTodo }) {
   function handleTitle (evt) { setTitle(evt.target.value) };
   function handleContent (evt) { setContent(evt.target.value) };
   function handleCreate () { 
-    const newTodo = { title, content, author: user, dateCreated: Date(Date.now()) , complete: false, dataCompleted: ""};
+    const newTodo = { title, content, author: user, dateCreated: Date(Date.now()) , complete: false, dataCompleted: "", id: uuidv4() };
     handleAddTodo(newTodo);
   }
 
