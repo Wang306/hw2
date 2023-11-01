@@ -3,22 +3,28 @@ import Logout from "./Logout";
 import Register from "./Register";
 import CreateTodo from "./CreateTodo";
 import TodoList from "./TodoList";
+import { StateContext } from "./context";
+import { useContext } from "react";
 
-export default function UserBar({ user, dispatchUser, handleAddTodo, todos, dispatchTodo }) {
+export default function UserBar({ handleAddTodo }) {
+
+  const { state } = useContext(StateContext);
+  const { user} = state;
+
   if (user) {
     return (
       <>
-        <Logout user={user} dispatchUser={dispatchUser}/>
-        <CreateTodo user={user} handleAddTodo={handleAddTodo} />
-        <TodoList todos={todos} dispatchTodo = {dispatchTodo} />
+        <Logout />
+        <CreateTodo handleAddTodo={handleAddTodo} />
+        <TodoList />
       </>
       
     );
   } else {
     return (
       <>
-        <Login dispatchUser={dispatchUser} />
-        <Register dispatchUser={dispatchUser} />
+        <Login />
+        <Register />
       </>
     );
   }

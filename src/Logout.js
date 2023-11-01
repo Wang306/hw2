@@ -1,10 +1,17 @@
-export default function Logout({ user, dispatchUser }) {
+import { useContext } from "react";
+import { StateContext } from "./context";
+
+export default function Logout() {
+
+  const { state, dispatch } = useContext(StateContext);
+  const { user } = state;
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        dispatchUser({ type: "LOGOUT" });
-        dispatchUser({ type: "CLEAR_TODO" });
+        dispatch({ type: "LOGOUT" });
+        dispatch({ type: "CLEAR_TODO" });
       }}
     >
       Logged in as: <b>{user}</b>

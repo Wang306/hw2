@@ -1,23 +1,14 @@
 import UserBar from "./UserBar";
 import { useReducer } from 'react';
 import appReducer from "./reducers";
+import { StateContext } from "./context";
 
 function App() {
-  
-  /*
-  const [user, setUser] = useState('');
-  const [todos, setTodos] = useState([]);
-  const handleAddTodo = (newTodo) => {
-    setTodos([newTodo, ...todos]);
-  };
-  */
 
   const [state, dispatch] = useReducer(appReducer, {
     user: "",
     todos: []
   });
-
-  const { user, todos } = state;
 
   const handleAddTodo = (newTodo) => {
     dispatch({ type: "CREATE_TODO", ...newTodo });
@@ -25,11 +16,11 @@ function App() {
 
   return (
     <div>
-      <UserBar user={user} dispatchUser = {dispatch} handleAddTodo={handleAddTodo} todos={todos} dispatchTodo = {dispatch}/>
+      <StateContext.Provider value={{ state, dispatch }}>
+        <UserBar handleAddTodo={handleAddTodo}/>
+      </StateContext.Provider>
     </div>
   );
-  // <CreateTodo user={user} handleAddTodo={handleAddTodo} />
-  // <TodoList todos={todos} dispatchTodo = {dispatch} />
 }
 
 export default App;

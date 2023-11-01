@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { StateContext } from "./context";
 import { v4 as uuidv4 } from "uuid";
 
-export default function CreateTodo({ user, handleAddTodo }) {
+export default function CreateTodo({ handleAddTodo }) {
+  const { state } = useContext(StateContext);
+  const { user } = state;
 
   const [ title, setTitle ] = useState('');
   const [ content, setContent ] = useState('');
-  //const [ dateCreated, setDateCreated ] = useState('');
   function handleTitle (evt) { setTitle(evt.target.value) };
   function handleContent (evt) { setContent(evt.target.value) };
   function handleCreate () { 
