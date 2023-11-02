@@ -4,15 +4,21 @@ export default function Todo({ title, content, author, dateCreated, complete, da
 
   
   const [user, toggleTodo] = useResource((title, content, author, dateCreated, complete, dateCompleted, id) => ({
-    url: "/users/" + id,
+    url: "/todos/" + id,
     method: "put",
     data: {title, content, author, dateCreated, complete, dateCompleted, id}
+  }));
+
+  const [todoDelete, deleteTodo] = useResource(() => ({
+    url: "/todos/" + id,
+    method: "delete",
   }));
   
   
   const handleComplete = () => {
     console.log("enter toggle");
-    toggleTodo(title, content, author, dateCreated, complete, dateCompleted, id);
+    const dateNow = Date(Date.now());
+    toggleTodo(title, content, author, dateCreated, !complete, dateNow, id);
     dispatchTodo({
       type: "TOGGLE_TODO", 
       id
@@ -20,6 +26,7 @@ export default function Todo({ title, content, author, dateCreated, complete, da
   };
 
   const handleDelete = () => {
+    deleteTodo();
     dispatchTodo({ 
       type: "DELETE_TODO",
       id
