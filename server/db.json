@@ -1,0 +1,29 @@
+{
+  "todos": [
+    {
+      "title": "1",
+      "content": "1",
+      "author": "anon@gmail.com",
+      "dateCreated": "Wed Nov 01 2023 20:56:20 GMT-0400 (Eastern Daylight Time)",
+      "complete": false,
+      "dataCompleted": "",
+      "id": "b500f025-0edf-4728-9131-466dafae820d"
+    },
+    {
+      "title": "1",
+      "content": "1",
+      "author": "anon@gmail.com",
+      "dateCreated": "Wed Nov 01 2023 21:06:47 GMT-0400 (Eastern Daylight Time)",
+      "complete": false,
+      "dateCompleted": "",
+      "id": "23d66071-9764-4e71-8949-98a3fabcf2b9"
+    }
+  ],
+  "users": [
+    {
+      "email": "anon@gmail.com",
+      "password": "$2a$10$yroyyAJGvy2tFpU8PE/ApOG5Mph8znKWoYfibe8kSzkBBiiHQ5O.e",
+      "id": 1
+    }
+  ]
+}
