@@ -6,25 +6,28 @@ import { useResource } from "react-request-hook";
 import TodoList from "./TodoList";
 
 function App() {
-  const [ todos, getTodos ] = useResource(() => ({
-    url: '/todos',
-    method: 'get'
-  }));
-  useEffect(getTodos, []);
-  useEffect(() => {
-    if (todos && todos.data) {
-      dispatch({ type: "FETCH_TODOS", todos: todos.data.reverse()});
-    }
-  }, [todos]);
 
   const [state, dispatch] = useReducer(appReducer, {
     user: "",
     todos: []
   });
 
-  //const handleAddTodo = (newTodo) => {
-  //  dispatch({ type: "CREATE_TODO", ...newTodo });
-  //}
+  const [todoResponse, getTodos] = useResource(() => ({
+    url: "/todos",
+    method: "get",
+  }));
+
+  useEffect(getTodos, []);
+
+  useEffect(() => {
+    if (todoResponse && todoResponse.data) {
+        dispatch({ type: 'FETCH_TODOS', todos: todoResponse.data.reverse() })
+    }    
+  }, [todoResponse]);
+
+
+
+
 
   return (
     <div>

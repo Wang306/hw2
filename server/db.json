@@ -15,6 +15,11 @@
       "email": "anon@gmail.com",
       "password": "$2a$10$yroyyAJGvy2tFpU8PE/ApOG5Mph8znKWoYfibe8kSzkBBiiHQ5O.e",
       "id": 1
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "$2a$10$ThFE0ZDw6bPKPt1d0lNW9OCShYrbr4uASNu3OUxRZgyQ1ti4hdC8K",
+      "id": 2
     }
   ]
 }

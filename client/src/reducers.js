@@ -38,8 +38,8 @@ function todoReducer(state, action) {
             return [];
         case "DELETE_TODO":
             return state.filter(todo => todo.id !== action.id);
-        case "FETCH_POSTS":
-            return action.posts;
+        case "FETCH_TODOS":
+            return action.todos;
         default:
             return state;
     }

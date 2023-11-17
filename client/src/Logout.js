@@ -11,7 +11,7 @@ export default function Logout() {
       onSubmit={(e) => {
         e.preventDefault();
         dispatch({ type: "LOGOUT" });
-        dispatch({ type: "CLEAR_TODO" });
+        //dispatch({ type: "CLEAR_TODO" });
       }}
     >
       Logged in as: <b>{user}</b>

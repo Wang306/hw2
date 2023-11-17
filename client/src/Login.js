@@ -14,11 +14,13 @@ export default function Login() {
     data: { email: username, password },
   }));
   useEffect(() => {
+    console.log(user);
     if (user) {
       if (user?.data?.user) {
         setLoginFailed(false);
         dispatchUser({ type: "LOGIN", username: user.data.user.email });
-      } else {
+      }
+      if (user.error) {
         setLoginFailed(true);
       }
     }
