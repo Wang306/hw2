@@ -17,7 +17,7 @@ function App() {
     method: "get",
   }));
 
-  useEffect(getTodos, []);
+  useEffect(getTodos, [getTodos]);
 
   useEffect(() => {
     if (todoResponse && todoResponse.data) {
