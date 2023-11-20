@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { StateContext } from "./context";
 import { v4 as uuidv4 } from "uuid";
 import { useResource } from "react-request-hook";
@@ -9,20 +9,42 @@ export default function CreateTodo() {
 
   const [ title, setTitle ] = useState('');
   const [ content, setContent ] = useState('');
+
+  const [ todo, createTodo ] = useResource(({ title, content, author, dateCreated, complete, dateCompleted }) => ({
+    url: "/todo",
+    method: "post",
+    headers: { Authorization: `${state.user.access_token}`},
+    data: { title, content, author, dateCreated, complete, dateCompleted }
+  }));
+
+  useEffect(() => {
+    if (todo.isLoading === false && todo.data) {
+      dispatch({
+        type: "CREATE_TODO",
+        title: todo.data.title,
+        content: todo.data.content,
+        author: user.username,
+        dateCreated: todo.data.dateCreated,
+        complete: todo.data.complete,
+        dateCompleted: todo.data.dateCompleted,
+        id: todo.data._id
+      })
+    }
+  }, [todo]);
+
   function handleTitle (evt) { setTitle(evt.target.value) };
   function handleContent (evt) { setContent(evt.target.value) };
 
-  const [todo , createTodo ] = useResource(({ title, content, author, dateCreated, complete, dateCompleted, id }) => ({
-    url: '/todos',
-    method: 'post',
-    data: { title, content, author, dateCreated, complete, dateCompleted, id }
-  }));
-
   function handleCreate () { 
-    const newTodo = { title, content, author: user, dateCreated: Date(Date.now()) , complete: false, dateCompleted: "", id: uuidv4() };
+    const newTodo = { 
+      title,
+      content,
+      author: user.username,
+      dateCreated: Date(Date.now()),
+      complete: false,
+      dateCompleted: null
+     };
     createTodo(newTodo);
-    dispatch({ type: 'CREATE_TODO', ...newTodo });
-    //handleAddTodo(newTodo);
   }
 
   return (
@@ -31,7 +53,7 @@ export default function CreateTodo() {
       handleCreate();
     }}>
       <div>
-        Author: <b>{user}</b>
+        Author: <b>{user.username}</b>
       </div>
       <div>
         <label htmlFor="create-title">Title:</label>

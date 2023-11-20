@@ -8,9 +8,9 @@ export default function TodoList() {
 
   return (
     <div>
-      {todos.map((t, i) => (
-        <Todo {...t} key={t.id} dispatchTodo={dispatchTodo}/>
-      ))}
+      {todos.length === 0 && <h2>No todos found.</h2>}
+      {todos.length > 0 &&
+        todos.map((p, i) => <Todo {...p} key={p._id || p.id} dispatchTodo={dispatchTodo}/>)}
     </div>
   );
 }

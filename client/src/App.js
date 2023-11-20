@@ -12,22 +12,28 @@ function App() {
     todos: []
   });
 
-  const [todoResponse, getTodos] = useResource(() => ({
-    url: "/todos",
+  const [todosResponse, getTodos] = useResource(() => ({
+    url: "/todo",
     method: "get",
+    headers: { Authorization: `${state?.user?.access_token}` }
   }));
 
-  useEffect(getTodos, [getTodos]);
+  useEffect(() => {
+    if (state.user){
+      getTodos();
+    }
+  }, [state?.user?.access_token]);
 
   useEffect(() => {
-    if (todoResponse && todoResponse.data) {
-        dispatch({ type: 'FETCH_TODOS', todos: todoResponse.data.reverse() })
-    }    
-  }, [todoResponse]);
-
-
-
-
+    if (
+      todosResponse &&
+      todosResponse.isLoading === false &&
+      todosResponse.data
+    ) {
+      console.log("Loading data...")
+      dispatch({ type: "FETCH_TODOS", todos: todosResponse.data.todos.reverse() });
+    }
+  }, [todosResponse]);
 
   return (
     <div>

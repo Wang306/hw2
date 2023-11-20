@@ -1,36 +1,59 @@
 import { useResource } from "react-request-hook";
+import { useContext, useEffect } from "react";
+import { StateContext } from "./context";
 
-export default function Todo({ title, content, author, dateCreated, complete, dateCompleted, id, dispatchTodo }) {
-
+export default function Todo({ title, content, author, dateCreated, complete, dateCompleted, _id }) {
+  const { state, dispatch:dispatchTodo } = useContext(StateContext);
+  const { user } = state;
   
-  const [user, toggleTodo] = useResource((title, content, author, dateCreated, complete, dateCompleted, id) => ({
-    url: "/todos/" + id,
+  const [todoToggle, toggleTodo] = useResource((title, content, author, dateCreated, complete, dateCompleted, _id) => ({
+    url: "/todo/" + _id,
     method: "put",
-    data: {title, content, author, dateCreated, complete, dateCompleted, id}
+    headers: { Authorization: `${user.access_token}`},
+    data: {title, content, author, dateCreated, complete, dateCompleted, _id}
   }));
 
   const [todoDelete, deleteTodo] = useResource(() => ({
-    url: "/todos/" + id,
+    url: "/todo/" + _id,
     method: "delete",
+    headers: { Authorization: `${user.access_token}`}
   }));
-  
+
+  useEffect(() => {
+    if (
+      todoToggle &&
+      todoToggle.isLoading === false &&
+      todoToggle.data
+    ) {
+      dispatchTodo({ 
+        type: "TOGGLE_TODO",
+        _id
+      });
+    }
+  }, [todoToggle]);
   
   const handleComplete = () => {
-    console.log("enter toggle");
-    const dateNow = Date(Date.now());
-    toggleTodo(title, content, author, dateCreated, !complete, dateNow, id);
-    dispatchTodo({
-      type: "TOGGLE_TODO", 
-      id
-    });
+    var dateNow = Date(Date.now());
+    if (complete) { dateNow = null; }
+    toggleTodo(title, content, author, dateCreated, !complete, dateNow, _id);
   };
+
+  useEffect(() => {
+    if (
+      todoDelete &&
+      todoDelete.isLoading === false &&
+      todoDelete.data
+    ) {
+      dispatchTodo({ 
+        type: "DELETE_TODO",
+        _id
+      });
+    }
+  }, [todoDelete]);
+  
 
   const handleDelete = () => {
     deleteTodo();
-    dispatchTodo({ 
-      type: "DELETE_TODO",
-      id
-    });
   };
 
   return (
@@ -38,7 +61,7 @@ export default function Todo({ title, content, author, dateCreated, complete, da
       <h3>{title}</h3>
       <div>{content}</div>
       <br />
-      <i>Written by <b>{author}</b></i>
+      <i>Written by <b>{user.username}</b></i>
       <br />
       <i>Date Created: <b>{dateCreated}</b></i>
       <br />

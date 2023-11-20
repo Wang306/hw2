@@ -1,20 +1,24 @@
-import { useState, useContext, useEffect } from "react";
-import { StateContext } from "./context";
+import { useState, useEffect } from "react";
 import { useResource } from "react-request-hook";
 
 export default function Register() {
+  const [status, setStatus] = useState("");
 
-  const { dispatch } = useContext(StateContext);
   const [user, register] = useResource((username, password) => ({
-    url: "/users",
+    url: "/auth/register",
     method: "post",
-    data: { email: username, password },
+    data: { username, password, passwordConfirmation: password },
   }));
+
   useEffect(() => {
-    if (user && user.data) {
-    dispatch({ type: "REGISTER", username: user.data.user.email });
+    if (user && user.isLoading === false && (user.data || user.error)) {
+      if (user.error) {
+        setStatus("Registration failed, please try again later.");
+      } else {
+        setStatus("Registration successful. You may now login.");
+      }
     }
-  }, [user, dispatch]);
+  }, [user]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,9 +34,12 @@ export default function Register() {
   }
 
   return (
-    <form 
-      onSubmit={ (e) => { e.preventDefault();  register(username, password); }}> 
-
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        register(username, password);
+      }}
+    >
       <label htmlFor="register-username">Username:</label>
       <input
         type="text"
@@ -68,6 +75,7 @@ export default function Register() {
           password !== passwordRepeat
         }
       />
+      {status && <p>{status}</p>}
     </form>
   );
 }

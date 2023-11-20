@@ -8,7 +8,7 @@ import { useContext } from "react";
 export default function UserBar({ handleAddTodo }) {
 
   const { state } = useContext(StateContext);
-  const { user} = state;
+  const { user } = state;
 
   if (user) {
     return (

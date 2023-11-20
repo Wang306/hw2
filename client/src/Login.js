@@ -9,10 +9,12 @@ export default function Login() {
   const [loginFailed, setLoginFailed] = useState(false);
   const [password, setPassword] = useState("");
   const [user, login] = useResource((username, password) => ({
-    url: "/login",
+    url: "auth/login",
     method: "post",
-    data: { email: username, password },
+    data: { username, password },
   }));
+
+  /*
   useEffect(() => {
     console.log(user);
     if (user) {
@@ -25,6 +27,23 @@ export default function Login() {
       }
     }
   }, [user, dispatchUser]);
+  */
+
+  useEffect(() => {
+    if (user && user.isLoading === false && (user.data || user.error)) {
+      if (user.error) {
+        setLoginFailed(true);
+      } else {
+        setLoginFailed(false);
+        dispatchUser({
+          type: "LOGIN",
+          username: username,
+          access_token: user.data.access_token,
+        });
+      }
+    }
+  }, [user, dispatchUser, username]);
+    
     
   function handlePassword (evt) { setPassword(evt.target.value); }
   function handleUsername (evt) { setUsername(evt.target.value); }
