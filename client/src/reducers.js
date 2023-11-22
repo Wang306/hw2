@@ -22,12 +22,12 @@ function todoReducer(state, action) {
                 dateCreated: action.dateCreated,
                 complete: action.complete,
                 dateCompleted: action.dateCompleted,
-                id: action.id
+                _id: action.id
             };
             return [newTodo, ...state];
         case "TOGGLE_TODO":
             return state.map(todo => {
-                if (todo.id === action.id) {
+                if (todo._id === action._id) {
                     return {
                         ...todo,
                         complete: !todo.complete,

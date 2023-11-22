@@ -27,7 +27,7 @@ export default function CreateTodo() {
         dateCreated: todo.data.dateCreated,
         complete: todo.data.complete,
         dateCompleted: todo.data.dateCompleted,
-        id: todo.data._id
+        id: todo.data.id
       })
     }
   }, [todo]);
